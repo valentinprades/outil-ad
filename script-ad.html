@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Générateur de Scripts - AD / PS</title>
+    <title>Outil-AD - Scripts AD</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = { darkMode: 'class' };
@@ -34,6 +34,7 @@
                 </button>
                 <div class="hidden sm:block w-px h-6 bg-slate-600 mx-1"></div>
                 <button onclick="window.location.href='index.html'" class="px-2 sm:px-4 py-2 rounded text-xs sm:text-sm font-medium hover:text-white text-gray-400 transition">Dashboard</button>
+                <button onclick="window.location.href='script-env.html'" class="px-2 sm:px-4 py-2 rounded text-xs sm:text-sm font-medium hover:text-white text-gray-400 transition">Environnement OS</button>
                 <button onclick="window.location.href='snippets.html'" class="px-2 sm:px-4 py-2 rounded text-xs sm:text-sm font-medium hover:text-white text-gray-400 transition">Snippets</button>
             </nav>
         </div>
@@ -45,6 +46,11 @@
             <div>
                 <h2 class="text-3xl font-bold text-slate-800 dark:text-white">Générateur PowerShell AD</h2>
                 <p class="text-slate-500 dark:text-slate-400 mt-1">Créez des scripts sécurisés sur mesure en remplissant les champs.</p>
+            </div>
+            
+            <div class="flex bg-gray-200 dark:bg-slate-800 p-1 rounded-lg shrink-0">
+                <button class="px-4 py-2 text-sm font-medium rounded-md bg-white dark:bg-slate-700 text-purple-600 dark:text-purple-400 shadow-sm">Active Directory</button>
+                <button onclick="window.location.href='script-env.html'" class="px-4 py-2 text-sm font-medium rounded-md text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition">Environnement OS</button>
             </div>
         </div>
 
@@ -120,13 +126,23 @@
                         <div>
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Mot de passe *</label>
                             <input type="text" id="f_pwd" oninput="generateScript()" class="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg bg-gray-50 dark:bg-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Azerty123!">
+                            <ul class="text-[11px] sm:text-xs mt-2 space-y-1 font-medium">
+                                <li id="crit-len" class="flex items-center gap-1 text-gray-500 dark:text-gray-400 transition-colors"><span class="w-4">❌</span> <span>Au moins 12 caractères</span></li>
+                                <li id="crit-comp" class="flex items-center gap-1 text-gray-500 dark:text-gray-400 transition-colors"><span class="w-4">❌</span> <span>3 types (Maj, Min, Chiffre, Spécial)</span></li>
+                                <li id="crit-sam" class="flex items-center gap-1 text-gray-500 dark:text-gray-400 transition-colors"><span class="w-4">❌</span> <span>Ne contient pas l'identifiant</span></li>
+                            </ul>
                         </div>
                     </div>
                     
-                    <div class="grid grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 gap-4">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Nom de l'UO cible *</label>
-                            <input type="text" id="f_ou_name" oninput="generateScript()" class="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg bg-gray-50 dark:bg-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Compta">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Arborescence de l'UO cible (Tapez '/' pour ajouter un niveau) *</label>
+                            <div id="ou-container" class="flex flex-wrap items-center gap-1 w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg bg-gray-50 dark:bg-slate-900 focus-within:ring-2 focus-within:ring-purple-500 min-h-[42px] cursor-text transition-all shadow-sm" onclick="document.getElementById('f_ou_input').focus()">
+                                <div id="ou-tags" class="flex flex-wrap items-center gap-1"></div>
+                                <input type="text" id="f_ou_input" class="flex-grow bg-transparent border-none focus:outline-none dark:text-white text-sm min-w-[150px]" placeholder="ex: France / Informatique / Compta">
+                            </div>
+                            <p id="ou-error" class="text-xs text-red-500 mt-1 hidden font-medium">Caractères interdits détectés dans le nom d'UO ( , = + < > # ; \ " )</p>
+                            <p id="ou-preview" class="text-xs text-purple-600 dark:text-purple-400 mt-1.5 font-mono break-all"></p>
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Domaine (ex: domaine.local) *</label>
@@ -219,6 +235,29 @@
             if (savedDomain) {
                 document.getElementById('f_domain').value = savedDomain;
             }
+            
+            const ouInput = document.getElementById('f_ou_input');
+            if (ouInput) {
+                ouInput.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === '/') {
+                        e.preventDefault();
+                        addOuTag(this.value);
+                    } else if (e.key === 'Backspace' && this.value === '' && ouTags.length > 0) {
+                        removeOuTag(ouTags.length - 1);
+                    }
+                });
+
+                ouInput.addEventListener('input', function(e) {
+                    if (this.value.includes('/')) {
+                        const parts = this.value.split('/');
+                        this.value = parts.pop(); // Conserve la fin dans l'input pour continuer la frappe
+                        parts.forEach(p => addOuTag(p));
+                    }
+                    document.getElementById('ou-error').classList.add('hidden');
+                });
+                
+                updateOuPreview();
+            }
         });
 
         function saveDomain() {
@@ -251,14 +290,124 @@
             isChecked ? homeSection.classList.remove('hidden') : homeSection.classList.add('hidden');
         }
 
+        // --- VALIDATION MOT DE PASSE ---
+        function checkPassword() {
+            const pwd = document.getElementById('f_pwd').value;
+            const sam = document.getElementById('f_sam').value.trim().toLowerCase();
+            
+            let isValid = true;
+            
+            const lenValid = pwd.length >= 12;
+            updateCritUI('crit-len', lenValid);
+            if (!lenValid) isValid = false;
+
+            let compCount = 0;
+            if (/[A-Z]/.test(pwd)) compCount++;
+            if (/[a-z]/.test(pwd)) compCount++;
+            if (/[0-9]/.test(pwd)) compCount++;
+            if (/[^A-Za-z0-9]/.test(pwd)) compCount++;
+            const compValid = compCount >= 3;
+            updateCritUI('crit-comp', compValid);
+            if (!compValid) isValid = false;
+
+            const samValid = sam.length > 0 ? !pwd.toLowerCase().includes(sam) : true;
+            updateCritUI('crit-sam', pwd.length > 0 && samValid);
+            if (!samValid || pwd.length === 0) isValid = false;
+
+            return isValid;
+        }
+
+        function updateCritUI(id, valid) {
+            const el = document.getElementById(id);
+            const icon = valid ? "✅" : "❌";
+            el.querySelector('span').innerText = icon;
+            if (valid) {
+                el.className = "flex items-center gap-1 text-green-600 dark:text-green-400 transition-colors";
+            } else {
+                el.className = "flex items-center gap-1 text-gray-500 dark:text-gray-400 transition-colors";
+            }
+        }
+
+        // --- GESTION DU CHAMP TAGS UO (Smart Breadcrumb) ---
+        let ouTags = [];
+
+        function addOuTag(val) {
+            const cleanVal = val.trim();
+            if (!cleanVal) return;
+            
+            // Blindage anti-caractères spéciaux LDAP
+            if (/[,=\+<>#;\\"]/.test(cleanVal)) {
+                document.getElementById('ou-error').classList.remove('hidden');
+                return;
+            }
+            
+            ouTags.push(cleanVal);
+            document.getElementById('f_ou_input').value = '';
+            renderOuTags();
+            generateScript(); // Met à jour le script live
+        }
+
+        function removeOuTag(index) {
+            ouTags.splice(index, 1);
+            renderOuTags();
+            generateScript();
+        }
+
+        function renderOuTags() {
+            const container = document.getElementById('ou-tags');
+            container.innerHTML = '';
+            ouTags.forEach((tag, index) => {
+                const tagEl = document.createElement('div');
+                tagEl.className = 'flex items-center gap-1 bg-purple-100 dark:bg-purple-900/50 text-purple-800 dark:text-purple-300 px-2 py-1 rounded text-sm font-medium shadow-sm';
+                tagEl.innerHTML = `
+                    ${tag}
+                    <button type="button" onclick="removeOuTag(${index})" class="hover:text-red-500 focus:outline-none transition-colors ml-1" title="Supprimer ce niveau">
+                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                `;
+                container.appendChild(tagEl);
+                
+                const slash = document.createElement('span');
+                slash.className = "text-gray-400 dark:text-gray-500 font-bold mx-0.5 select-none";
+                slash.innerText = "/";
+                container.appendChild(slash);
+            });
+            updateOuPreview();
+        }
+
+        function updateOuPreview() {
+            const preview = document.getElementById('ou-preview');
+            const domainEl = document.getElementById('f_domain');
+            if (!domainEl) return "";
+            
+            const domain = domainEl.value.trim();
+            let dcParts = "";
+            if (domain) {
+                dcParts = domain.split('.').map(part => `DC=${part}`).join(',');
+            }
+            
+            if (ouTags.length === 0) {
+                preview.innerText = dcParts ? `Synthèse LDAP : ${dcParts}` : "";
+                return "";
+            }
+            
+            // AD lit de l'enfant vers le parent, donc on inverse l'ordre tapé (reverse)
+            const ouPath = [...ouTags].reverse().map(t => `OU=${t}`).join(',');
+            const fullPath = dcParts ? `${ouPath},${dcParts}` : ouPath;
+            preview.innerText = `Synthèse LDAP : ${fullPath}`;
+            return fullPath;
+        }
+
         function generateScript() {
             const prenom = document.getElementById('f_prenom').value.trim();
             const nom = document.getElementById('f_nom').value.trim();
             const sam = document.getElementById('f_sam').value.trim();
             const pwd = document.getElementById('f_pwd').value.trim();
-            const ouName = document.getElementById('f_ou_name').value.trim();
             const domain = document.getElementById('f_domain').value.trim();
             
+            const isPwdValid = checkPassword();
+            const fullOuPath = updateOuPreview();
+
             const title = document.getElementById('f_title').value.trim();
             const dept = document.getElementById('f_dept').value.trim();
             const forcePwd = document.getElementById('f_forcePwd').checked;
@@ -273,19 +422,22 @@
 
             // Sécurité "By Design" : Vérification des champs obligatoires
             let isMissingField = false;
-            if (!prenom || !nom || !sam || !pwd || !ouName || !domain) isMissingField = true;
+            if (!prenom || !nom || !sam || !pwd || ouTags.length === 0 || !domain) isMissingField = true;
             if (checkGroup && !groupName) isMissingField = true;
             if (checkHomeDir && !homeServer) isMissingField = true;
 
-            if (isMissingField) {
+            if (!isPwdValid) {
                 output.className = "text-yellow-500 text-sm font-mono whitespace-pre-wrap break-all";
-                output.innerText = "# Avertissement : Données incomplètes.\n# Remplissez tous les champs obligatoires (*) pour générer une commande valide.";
+                output.innerText = "# Avertissement : Le mot de passe ne respecte pas les critères de complexité de l'Active Directory.\n# Veuillez corriger le mot de passe pour générer le script.";
                 return;
             }
 
-            // Traduction du domaine en Distinguished Name (mondomaine.local -> DC=mondomaine,DC=local)
-            const dcParts = domain.split('.').map(part => `DC=${part}`).join(',');
-            const fullOuPath = `OU=${ouName},${dcParts}`;
+            if (isMissingField) {
+                output.className = "text-yellow-500 text-sm font-mono whitespace-pre-wrap break-all";
+                output.innerText = "# Avertissement : Données incomplètes.\n# Remplissez tous les champs obligatoires (*) et validez l'UO avec '/' pour générer le script.";
+                return;
+            }
+
             const upn = `${sam}@${domain}`;
             const enabledState = checkDisable ? "$false" : "$true";
 
