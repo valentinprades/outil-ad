@@ -1,0 +1,553 @@
+[
+  {
+    "id": 1,
+    "title": "Politique de mots de passe robuste",
+    "category": "Sécurité",
+    "type": "Ordinateur",
+    "description": "Définit la complexité, la longueur et la durée de vie des mots de passe pour tout le domaine afin de prévenir les attaques par force brute.",
+    "path": "Config. Ordinateur > Stratégies > Paramètres Windows > Paramètres de sécurité > Stratégies de comptes > Stratégie de mot de passe",
+    "instructions": [
+      "Exiger l'historique des mots de passe : 24 mots de passe.",
+      "Âge maximal du mot de passe : 90 jours.",
+      "Âge minimal : 1 jour (empêche le changement immédiat en boucle).",
+      "Longueur minimale : 12 ou 14 caractères.",
+      "Le mot de passe doit respecter des exigences de complexité : Activé."
+    ],
+    "registry": "HKLM\\SAM\\SAM\\Domains\\Account\\F (Binaire stocké dans SAM)"
+  },
+  {
+    "id": 2,
+    "title": "Verrouillage écran inactivité",
+    "category": "Sécurité",
+    "type": "Utilisateur",
+    "description": "Verrouille automatiquement la session utilisateur après une période d'inactivité (ex: 15 min) pour protéger les données si l'utilisateur quitte son poste.",
+    "path": "Config. Utilisateur > Stratégies > Modèles d'administration > Panneau de configuration > Personnalisation",
+    "instructions": [
+      "Activer 'Délai d'expiration de l'écran de veille'.",
+      "Définir le délai (secondes) : 900 (pour 15 min).",
+      "Activer 'Protéger l'écran de veille par mot de passe'."
+    ],
+    "registry": "HKCU\\Software\\Policies\\Microsoft\\Windows\\Control Panel\\Desktop\nScreenSaveTimeOut"
+  },
+  {
+    "id": 3,
+    "title": "Désactiver l'accès CMD",
+    "category": "Sécurité",
+    "type": "Utilisateur",
+    "description": "Empêche les utilisateurs standards de lancer l'invite de commande (cmd.exe) et d'exécuter des scripts batch.",
+    "path": "Config. Utilisateur > Stratégies > Modèles d'administration > Système",
+    "instructions": [
+      "Ouvrir 'Empêcher l'accès à l'invite de commandes'.",
+      "Sélectionner 'Activé'.",
+      "Option : 'Désactiver également le traitement des scripts de l'invite de commande' (Non recommandé si vous utilisez des scripts de logon)."
+    ],
+    "registry": "HKCU\\Software\\Policies\\Microsoft\\Windows\\System\nDisableCMD (DWORD: 1)"
+  },
+  {
+    "id": 4,
+    "title": "Contrôle de Compte (UAC)",
+    "category": "Sécurité",
+    "type": "Ordinateur",
+    "description": "Force la demande d'élévation de privilèges pour les installations et modifications système, empêchant les changements non autorisés.",
+    "path": "Config. Ordinateur > Paramètres Windows > Paramètres de sécurité > Stratégies locales > Options de sécurité",
+    "instructions": [
+      "Rechercher 'Contrôle de compte d'utilisateur : comportement de l'invite...'",
+      "Pour les administrateurs : 'Demander le consentement pour les binaires non-Windows'.",
+      "Pour les utilisateurs standard : 'Refuser automatiquement les demandes d'élévation'."
+    ],
+    "registry": "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\nConsentPromptBehaviorAdmin"
+  },
+  {
+    "id": 5,
+    "title": "Blocage des ports USB (Stockage)",
+    "category": "Sécurité",
+    "type": "Ordinateur",
+    "description": "Interdit la lecture et l'écriture sur les clés USB et disques durs externes pour éviter les fuites de données et les virus.",
+    "path": "Config. Ordinateur > Modèles d'administration > Système > Accès au stockage amovible",
+    "instructions": [
+      "Chercher 'Toutes les classes de stockage amovible : Refuser tout accès'.",
+      "Mettre sur 'Activé'.",
+      "Alternative moins stricte : Activer uniquement 'Disques amovibles : Refuser l'accès en exécution'."
+    ],
+    "registry": "HKLM\\Software\\Policies\\Microsoft\\Windows\\RemovableStorageDevices"
+  },
+  {
+    "id": 6,
+    "title": "Fond d'écran standard (Branding)",
+    "category": "Personnalisation",
+    "type": "Utilisateur",
+    "description": "Force un fond d'écran d'entreprise spécifique pour tous les utilisateurs et empêche sa modification.",
+    "path": "Config. Utilisateur > Stratégies > Modèles d'administration > Bureau > Bureau",
+    "instructions": [
+      "Activer 'Papier peint du Bureau'.",
+      "Chemin : \\\\srv-dc01\\netlogon\\img\\wallpaper.jpg (Doit être accessible en lecture).",
+      "Style : 'Remplir' ou 'Ajuster'."
+    ],
+    "registry": "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\nWallpaper"
+  },
+  {
+    "id": 7,
+    "title": "Écran de verrouillage (Lock Screen)",
+    "category": "Personnalisation",
+    "type": "Ordinateur",
+    "description": "Définit l'image affichée lorsque l'ordinateur est verrouillé (avant le login).",
+    "path": "Config. Ordinateur > Modèles d'administration > Panneau de configuration > Personnalisation",
+    "instructions": [
+      "Activer 'Forcer une image de l'écran de verrouillage par défaut spécifique'.",
+      "Indiquer le chemin local ou réseau de l'image.",
+      "Recommandé : Copier l'image via GPP Files dans C:\\Windows\\Web\\Screen au préalable."
+    ],
+    "registry": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Personalization\nLockScreenImage"
+  },
+  {
+    "id": 8,
+    "title": "Menu Démarrer standardisé (XML)",
+    "category": "Personnalisation",
+    "type": "Ordinateur",
+    "description": "Impose une disposition précise des tuiles et applications du menu démarrer Windows 10/11.",
+    "path": "Config. Ordinateur > Modèles d'administration > Menu Démarrer et barre des tâches",
+    "instructions": [
+      "1. Configurer un PC modèle.",
+      "2. Powershell : Export-StartLayout -Path C:\\layout.xml",
+      "3. Placer le XML sur le NETLOGON.",
+      "4. Dans la GPO, activer 'Disposition de l'écran de démarrage' et pointer vers le fichier XML."
+    ],
+    "registry": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Explorer\nStartLayoutFile"
+  },
+  {
+    "id": 9,
+    "title": "Mappage de lecteur réseau (Drive Maps)",
+    "category": "Réseau",
+    "type": "Utilisateur",
+    "description": "Monte automatiquement les lecteurs réseaux (P:, S:, Z:) selon les groupes utilisateurs.",
+    "path": "Config. Utilisateur > Préférences > Paramètres Windows > Mappages de lecteurs",
+    "instructions": [
+      "Clic droit > Nouveau > Lecteur mappé.",
+      "Action : Remplacer (Pour réinitialiser proprement).",
+      "Emplacement : \\\\fs01\\partage_commun",
+      "Lettre : P:",
+      "Cocher 'Reconnecter'.",
+      "Onglet Commun : Cocher 'Exécuter dans le contexte de sécurité de l'utilisateur'."
+    ],
+    "registry": "GPP XML"
+  },
+  {
+    "id": 10,
+    "title": "Déploiement d'imprimantes (GPP)",
+    "category": "Système",
+    "type": "Utilisateur",
+    "description": "Installe les imprimantes partagées automatiquement selon le groupe de sécurité ou l'OU.",
+    "path": "Config. Utilisateur > Préférences > Paramètres du Panneau de config > Imprimantes",
+    "instructions": [
+      "Nouveau > Imprimante partagée.",
+      "Chemin : \\\\srv-print\\IMP-RH-01",
+      "Action : Mettre à jour.",
+      "Onglet Commun > Ciblage au niveau de l'élément : Filtrer par Groupe de sécurité (ex: GG_RH)."
+    ],
+    "registry": "GPP XML"
+  },
+  {
+    "id": 11,
+    "title": "Gestion de l'alimentation (Pas de veille)",
+    "category": "Système",
+    "type": "Ordinateur",
+    "description": "Empêche les PC fixes de se mettre en veille pour permettre la maintenance nocturne.",
+    "path": "Config. Ordinateur > Modèles d'admin > Système > Gestion de l'alimentation > Paramètres de veille",
+    "instructions": [
+      "Activer 'Spécifier le délai de mise en veille (sur secteur)'.",
+      "Mettre la valeur à 0 (Jamais).",
+      "Faire de même pour 'Veille prolongée'."
+    ],
+    "registry": "HKLM\\Software\\Policies\\Microsoft\\Power\\PowerSettings"
+  },
+  {
+    "id": 12,
+    "title": "Configuration Proxy (Windows)",
+    "category": "Réseau",
+    "type": "Utilisateur",
+    "description": "Force les paramètres de proxy pour le système et les anciens navigateurs.",
+    "path": "Config. Utilisateur > Préférences > Paramètres du Panneau de config > Paramètres Internet",
+    "instructions": [
+      "Clic droit > Nouveau > Internet Explorer 10.",
+      "Onglet Connexions > Paramètres réseau.",
+      "Cocher 'Utiliser un serveur proxy' et entrer IP + Port.",
+      "Cocher 'Ne pas utiliser pour les adresses locales'."
+    ],
+    "registry": "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\nProxyServer"
+  },
+  {
+    "id": 13,
+    "title": "Page d'accueil Edge / Chrome",
+    "category": "Navigateur",
+    "type": "Ordinateur",
+    "description": "Définit la page de démarrage et le bouton Accueil (souvent l'Intranet).",
+    "path": "Config. Ordinateur > Modèles d'admin > Microsoft Edge > Démarrage",
+    "instructions": [
+      "Activer 'Action à effectuer au démarrage' -> Ouvrir une liste d'URL.",
+      "Activer 'Sites à ouvrir au démarrage du navigateur' -> Ajouter l'URL intranet.",
+      "Activer 'Configurer le bouton Accueil' -> Ajouter l'URL."
+    ],
+    "registry": "HKLM\\Software\\Policies\\Microsoft\\Edge\\RestoreOnStartupURLs"
+  },
+  {
+    "id": 14,
+    "title": "Forcer l'installation d'extensions",
+    "category": "Navigateur",
+    "type": "Ordinateur",
+    "description": "Installe silencieusement des extensions obligatoires (Adblock, Bitwarden, outil RH).",
+    "path": "Config. Ordinateur > Modèles d'admin > Microsoft Edge > Extensions",
+    "instructions": [
+      "Activer 'Contrôler les extensions installées silencieusement'.",
+      "Ajouter l'ID de l'extension (trouvé sur le store Chrome/Edge).",
+      "Exemple uBlock Origin : cjpalhdlnbpafiamejdnhcphjbkeiagm"
+    ],
+    "registry": "HKLM\\Software\\Policies\\Microsoft\\Edge\\ExtensionInstallForcelist"
+  },
+  {
+    "id": 15,
+    "title": "WSUS - Intranet Update Service",
+    "category": "Maintenance",
+    "type": "Ordinateur",
+    "description": "Redirige Windows Update vers un serveur local pour économiser la bande passante et contrôler les versions.",
+    "path": "Config. Ordinateur > Modèles d'admin > Composants Windows > Windows Update",
+    "instructions": [
+      "Activer 'Spécifier l'emplacement intranet...'.",
+      "Serveur : http://wsus-server:8530",
+      "Activer 'Configuration du service Mises à jour automatiques' -> 4-Téléchargement auto et planifier."
+    ],
+    "registry": "HKLM\\Software\\Policies\\Microsoft\\Windows\\WindowsUpdate"
+  },
+  {
+    "id": 16,
+    "title": "Désactiver reboot auto (WSUS)",
+    "category": "Maintenance",
+    "type": "Ordinateur",
+    "description": "Empêche le PC de redémarrer tout seul après une MAJ si un utilisateur est connecté.",
+    "path": "Config. Ordinateur > Modèles d'admin > Composants Windows > Windows Update",
+    "instructions": [
+      "Activer 'Pas de redémarrage automatique avec des utilisateurs connectés...'.",
+      "Force l'utilisateur à valider le redémarrage, évitant la perte de travail."
+    ],
+    "registry": "HKLM\\Software\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU\nNoAutoRebootWithLoggedOnUsers"
+  },
+  {
+    "id": 17,
+    "title": "Redirection de dossiers (Docs)",
+    "category": "Données",
+    "type": "Utilisateur",
+    "description": "Redirige 'Mes Documents' vers un serveur de fichiers pour assurer la sauvegarde.",
+    "path": "Config. Utilisateur > Stratégies > Paramètres Windows > Redirection de dossiers",
+    "instructions": [
+      "Clic droit sur Documents > Propriétés.",
+      "Paramètre : De base - Rediriger les dossiers de tout le monde vers le même emplacement.",
+      "Chemin racine : \\\\fs01\\home$\\%USERNAME%\\Documents"
+    ],
+    "registry": "Géré via Folder Redirection"
+  },
+  {
+    "id": 18,
+    "title": "WinRM (Gestion à distance)",
+    "category": "Système",
+    "type": "Ordinateur",
+    "description": "Active la gestion à distance via PowerShell (essentiel pour Ansible ou l'admin à distance).",
+    "path": "Config. Ordinateur > Modèles d'admin > Composants Windows > Gestion à distance de Windows (WinRM)",
+    "instructions": [
+      "Activer 'Autoriser la configuration automatique des écouteurs'.",
+      "IPv4 filter : * (ou plage IP admin).",
+      "Nécessite aussi une règle pare-feu (gérable via GPO Pare-feu)."
+    ],
+    "registry": "HKLM\\Software\\Policies\\Microsoft\\Windows\\WinRM"
+  },
+  {
+    "id": 19,
+    "title": "LAPS (Local Admin Password)",
+    "category": "Sécurité",
+    "type": "Ordinateur",
+    "description": "Gère le mot de passe admin local de façon unique et aléatoire pour chaque PC (Nécessite agent LAPS).",
+    "path": "Config. Ordinateur > Modèles d'admin > LAPS",
+    "instructions": [
+      "Nécessite installation du .msi LAPS sur les postes.",
+      "Activer 'Enable local admin password management'.",
+      "Activer 'Password Settings' (Complexité, longueur).",
+      "Définir le nom du compte à gérer (Administrateur)."
+    ],
+    "registry": "HKLM\\Software\\Policies\\Microsoft Services\\AdmPwd"
+  },
+  {
+    "id": 20,
+    "title": "Activer le Bureau à distance (RDP)",
+    "category": "Système",
+    "type": "Ordinateur",
+    "description": "Autorise les connexions RDP sur les postes clients pour la prise en main.",
+    "path": "Config. Ordinateur > Modèles d'admin > Composants Windows > Services Bureau à distance > ... > Connexions",
+    "instructions": [
+      "Activer 'Autoriser les utilisateurs à se connecter à distance à l'aide des services Bureau à distance'.",
+      "Ne pas oublier la GPO Pare-feu : Règle entrante TCP 3389."
+    ],
+    "registry": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services\nfDenyTSConnections (0)"
+  },
+  {
+    "id": 21,
+    "title": "Ne pas afficher le dernier nom d'utilisateur",
+    "category": "Sécurité",
+    "type": "Ordinateur",
+    "description": "Oblige les utilisateurs à saisir à la fois leur identifiant et leur mot de passe sur l'écran de connexion (Masque le dernier utilisateur connecté).",
+    "path": "Config. Ordinateur > Stratégies > Paramètres Windows > Paramètres de sécurité > Stratégies locales > Options de sécurité",
+    "instructions": [
+      "Rechercher 'Ouverture de session interactive : ne pas afficher le dernier nom d'utilisateur'.",
+      "Mettre sur 'Activé'."
+    ],
+    "registry": "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\ndontdisplaylastusername (1)"
+  },
+  {
+    "id": 22,
+    "title": "Désactiver le Panneau de configuration et les Paramètres",
+    "category": "Sécurité",
+    "type": "Utilisateur",
+    "description": "Empêche les utilisateurs standards d'accéder au panneau de configuration et à l'application Paramètres de Windows.",
+    "path": "Config. Utilisateur > Stratégies > Modèles d'administration > Panneau de configuration",
+    "instructions": [
+      "Rechercher 'Interdire l'accès au Panneau de configuration et à l'application Paramètres du PC'.",
+      "Mettre sur 'Activé'."
+    ],
+    "registry": "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\nNoControlPanel (1)"
+  },
+  {
+    "id": 23,
+    "title": "Renommer le compte Administrateur local",
+    "category": "Sécurité",
+    "type": "Ordinateur",
+    "description": "Change le nom du compte administrateur intégré (SID 500) pour compliquer les attaques par force brute (ex: en le renommant 'LocalRoot').",
+    "path": "Config. Ordinateur > Stratégies > Paramètres Windows > Paramètres de sécurité > Stratégies locales > Options de sécurité",
+    "instructions": [
+      "Rechercher 'Comptes : renommer le compte administrateur'.",
+      "Saisir le nouveau nom souhaité."
+    ],
+    "registry": "Non applicable directement via registre (Géré par la base SAM)"
+  },
+  {
+    "id": 24,
+    "title": "Désactiver le compte Invité",
+    "category": "Sécurité",
+    "type": "Ordinateur",
+    "description": "Garantit que le compte invité intégré reste désactivé pour éviter les accès non authentifiés.",
+    "path": "Config. Ordinateur > Stratégies > Paramètres Windows > Paramètres de sécurité > Stratégies locales > Options de sécurité",
+    "instructions": [
+      "Rechercher 'Comptes : statut du compte Invité'.",
+      "Mettre sur 'Désactivé'."
+    ],
+    "registry": "Non applicable directement via registre (Géré par la base SAM)"
+  },
+  {
+    "id": 25,
+    "title": "Auditer les ouvertures de session",
+    "category": "Sécurité",
+    "type": "Ordinateur",
+    "description": "Enregistre dans l'Observateur d'événements (Event Viewer) les succès et échecs d'ouvertures de session. Crucial pour la traçabilité.",
+    "path": "Config. Ordinateur > Paramètres Windows > Paramètres de sécurité > Stratégies locales > Stratégie d'audit",
+    "instructions": [
+      "Rechercher 'Auditer les événements d'ouverture de session'.",
+      "Cocher 'Réussite' et 'Échec'."
+    ],
+    "registry": "Stocké dans la base LSA (Local Security Authority)"
+  },
+  {
+    "id": 26,
+    "title": "Désactiver Microsoft OneDrive",
+    "category": "Système",
+    "type": "Ordinateur",
+    "description": "Empêche le démarrage et la synchronisation de l'application OneDrive grand public sur les PC de l'entreprise.",
+    "path": "Config. Ordinateur > Modèles d'administration > Composants Windows > OneDrive",
+    "instructions": [
+      "Rechercher 'Empêcher l'utilisation de OneDrive pour le stockage de fichiers'.",
+      "Mettre sur 'Activé'."
+    ],
+    "registry": "HKLM\\Software\\Policies\\Microsoft\\Windows\\OneDrive\nDisableFileSyncNGSC (1)"
+  },
+  {
+    "id": 27,
+    "title": "Désactiver la Télémétrie Windows",
+    "category": "Système",
+    "type": "Ordinateur",
+    "description": "Limite au strict minimum les données de diagnostic et d'utilisation envoyées à Microsoft.",
+    "path": "Config. Ordinateur > Modèles d'admin > Composants Windows > Collecte des données et versions Preview",
+    "instructions": [
+      "Rechercher 'Autoriser les données de diagnostic' (ou 'Télémétrie' sur anciennes versions).",
+      "Mettre sur 'Activé' et choisir l'option 'Données de diagnostic requises' (ou Sécurité/0)."
+    ],
+    "registry": "HKLM\\Software\\Policies\\Microsoft\\Windows\\DataCollection\nAllowTelemetry (0)"
+  },
+  {
+    "id": 28,
+    "title": "Forcer le Pare-Feu Windows (Profil Domaine)",
+    "category": "Sécurité",
+    "type": "Ordinateur",
+    "description": "S'assure que le Pare-feu Windows Defender est toujours actif lorsque le poste est connecté au réseau de l'entreprise.",
+    "path": "Config. Ordinateur > Stratégies > Paramètres Windows > Paramètres de sécurité > Pare-feu Windows Defender...",
+    "instructions": [
+      "Clic droit sur 'Pare-feu Windows Defender' > Propriétés.",
+      "Onglet Profil du domaine : État du pare-feu -> 'Activé (recommandé)'."
+    ],
+    "registry": "HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\DomainProfile\nEnableFirewall (1)"
+  },
+  {
+    "id": 29,
+    "title": "Bloquer les comptes Microsoft",
+    "category": "Sécurité",
+    "type": "Ordinateur",
+    "description": "Empêche les utilisateurs d'ajouter ou de se connecter avec un compte Microsoft personnel (@outlook, @hotmail).",
+    "path": "Config. Ordinateur > Paramètres de sécurité > Stratégies locales > Options de sécurité",
+    "instructions": [
+      "Rechercher 'Comptes : bloquer les comptes Microsoft'.",
+      "Choisir 'Les utilisateurs ne peuvent pas ajouter de comptes Microsoft'."
+    ],
+    "registry": "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\nNoConnectedUser (3)"
+  },
+  {
+    "id": 30,
+    "title": "Groupes Restreints (Admins Locaux)",
+    "category": "Sécurité",
+    "type": "Ordinateur",
+    "description": "Force l'appartenance d'un groupe AD (ex: 'GG_Support_IT') au groupe 'Administrateurs' local de chaque PC.",
+    "path": "Config. Ordinateur > Stratégies > Paramètres Windows > Paramètres de sécurité > Groupes restreints",
+    "instructions": [
+      "Ajouter un groupe : 'Administrateurs'.",
+      "Dans 'Membres de ce groupe', ajouter 'MONDOMAINE\\GG_Support_IT'.",
+      "ATTENTION: Cette méthode écrase les administrateurs existants. À utiliser avec précaution."
+    ],
+    "registry": "Appliqué via la base SAM locale"
+  },
+  {
+    "id": 31,
+    "title": "Désactiver le Microsoft Store",
+    "category": "Système",
+    "type": "Ordinateur",
+    "description": "Interdit l'accès à l'application Microsoft Store pour éviter l'installation d'applications non approuvées.",
+    "path": "Config. Ordinateur > Modèles d'administration > Composants Windows > Store",
+    "instructions": [
+      "Rechercher 'Désactiver l'application Store'.",
+      "Mettre sur 'Activé'."
+    ],
+    "registry": "HKLM\\Software\\Policies\\Microsoft\\WindowsStore\nRemoveWindowsStore (1)"
+  },
+  {
+    "id": 32,
+    "title": "Exiger la signature SMB",
+    "category": "Sécurité",
+    "type": "Ordinateur",
+    "description": "Empêche les attaques de type 'Man-in-the-Middle' sur le réseau en forçant la signature des paquets SMB.",
+    "path": "Config. Ordinateur > Paramètres de sécurité > Stratégies locales > Options de sécurité",
+    "instructions": [
+      "Serveur réseau Microsoft : communications signées numériquement (toujours) -> Activé.",
+      "Client réseau Microsoft : communications signées numériquement (toujours) -> Activé."
+    ],
+    "registry": "HKLM\\System\\CurrentControlSet\\Services\\LanManServer\\Parameters\nRequireSecuritySignature (1)"
+  },
+  {
+    "id": 33,
+    "title": "Effacer le fichier d'échange à l'arrêt",
+    "category": "Sécurité",
+    "type": "Ordinateur",
+    "description": "Efface le contenu de la mémoire virtuelle (pagefile.sys) lors de l'arrêt du PC pour qu'aucun mot de passe ou donnée sensible ne puisse être récupéré sur le disque éteint.",
+    "path": "Config. Ordinateur > Paramètres de sécurité > Stratégies locales > Options de sécurité",
+    "instructions": [
+      "Rechercher 'Arrêt : effacer le fichier d'échange de la mémoire virtuelle'.",
+      "Mettre sur 'Activé'. (Note: Rallonge le temps de l'arrêt du PC)"
+    ],
+    "registry": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Memory Management\nClearPageFileAtShutdown (1)"
+  },
+  {
+    "id": 34,
+    "title": "Désactiver Cortana",
+    "category": "Système",
+    "type": "Ordinateur",
+    "description": "Désactive l'assistant vocal Cortana sur la barre des tâches pour gagner en ressources et en confidentialité.",
+    "path": "Config. Ordinateur > Modèles d'admin > Composants Windows > Recherche",
+    "instructions": [
+      "Rechercher 'Autoriser Cortana'.",
+      "Mettre sur 'Désactivé'."
+    ],
+    "registry": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Windows Search\nAllowCortana (0)"
+  },
+  {
+    "id": 35,
+    "title": "Bloquer l'installation des applications sponsorisées",
+    "category": "Personnalisation",
+    "type": "Ordinateur",
+    "description": "Empêche Windows 10/11 d'installer automatiquement des jeux et applications tierces (Candy Crush, Netflix) dans le menu Démarrer.",
+    "path": "Config. Ordinateur > Modèles d'admin > Composants Windows > Contenu cloud",
+    "instructions": [
+      "Rechercher 'Désactiver les expériences client Microsoft'.",
+      "Mettre sur 'Activé'."
+    ],
+    "registry": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\CloudContent\nDisableWindowsConsumerFeatures (1)"
+  },
+  {
+    "id": 36,
+    "title": "Forcer SmartScreen pour Edge",
+    "category": "Navigateur",
+    "type": "Ordinateur",
+    "description": "Active et empêche la désactivation de l'antiphishing Microsoft SmartScreen dans le navigateur Edge.",
+    "path": "Config. Ordinateur > Modèles d'admin > Microsoft Edge",
+    "instructions": [
+      "Rechercher 'Configurer Microsoft Defender SmartScreen'.",
+      "Mettre sur 'Activé'.",
+      "Rechercher 'Empêcher le contournement des avertissements...', mettre sur 'Activé'."
+    ],
+    "registry": "HKLM\\Software\\Policies\\Microsoft\\Edge\nSmartScreenEnabled (1)"
+  },
+  {
+    "id": 37,
+    "title": "Désactiver la lecture automatique (AutoPlay)",
+    "category": "Sécurité",
+    "type": "Ordinateur",
+    "description": "Empêche l'exécution automatique de programmes lors de l'insertion d'une clé USB ou d'un CD, bloquant un vecteur majeur d'infections.",
+    "path": "Config. Ordinateur > Modèles d'admin > Composants Windows > Stratégies d'exécution automatique",
+    "instructions": [
+      "Rechercher 'Désactiver l'exécution automatique'.",
+      "Mettre sur 'Activé' et sélectionner 'Tous les lecteurs'."
+    ],
+    "registry": "HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\nNoDriveTypeAutoRun (255)"
+  },
+  {
+    "id": 38,
+    "title": "Définir les serveurs de temps NTP",
+    "category": "Système",
+    "type": "Ordinateur",
+    "description": "Assure que tous les postes de travail sont parfaitement synchronisés avec les contrôleurs de domaine (Essentiel pour Kerberos).",
+    "path": "Config. Ordinateur > Modèles d'admin > Système > Service de temps Windows > Fournisseurs de temps",
+    "instructions": [
+      "Rechercher 'Configurer le client NTP Windows'.",
+      "Mettre sur 'Activé'. NtpServer : 'time.windows.com,0x9' (ou IP du contrôleur de domaine)."
+    ],
+    "registry": "HKLM\\SOFTWARE\\Policies\\Microsoft\\W32time\\Parameters\nNtpServer"
+  },
+  {
+    "id": 39,
+    "title": "Déployer un raccourci Bureau (GPP)",
+    "category": "Personnalisation",
+    "type": "Utilisateur",
+    "description": "Place automatiquement une icône sur le bureau des utilisateurs (ex: un lien vers l'intranet ou un logiciel métier).",
+    "path": "Config. Utilisateur > Préférences > Paramètres Windows > Raccourcis",
+    "instructions": [
+      "Clic droit > Nouveau > Raccourci.",
+      "Action : Mettre à jour.",
+      "Nom : Intranet. Emplacement : Bureau.",
+      "URL cible : https://intranet.entreprise.local"
+    ],
+    "registry": "GPP XML"
+  },
+  {
+    "id": 40,
+    "title": "Empêcher l'enregistrement des mots de passe",
+    "category": "Navigateur",
+    "type": "Ordinateur",
+    "description": "Désactive le gestionnaire de mots de passe intégré au navigateur Edge, forçant les utilisateurs à utiliser une solution d'entreprise tierce.",
+    "path": "Config. Ordinateur > Modèles d'admin > Microsoft Edge > Gestionnaire de mots de passe",
+    "instructions": [
+      "Rechercher 'Activer l'enregistrement des mots de passe dans le gestionnaire de mots de passe'.",
+      "Mettre sur 'Désactivé'."
+    ],
+    "registry": "HKLM\\Software\\Policies\\Microsoft\\Edge\nPasswordManagerEnabled (0)"
+  }
+]

@@ -1,0 +1,142 @@
+[
+  {
+    "id": 101,
+    "title": "Mise à jour forcée des GPO (Classique)",
+    "category": "GPO",
+    "description": "Force la mise à jour immédiate des stratégies de groupe (Ordinateur et Utilisateur) sans attendre le cycle normal de 90 minutes.",
+    "code": "gpupdate /force"
+  },
+  {
+    "id": 102,
+    "title": "Mise à jour GPO (Ordinateur uniquement)",
+    "category": "GPO",
+    "description": "Cible spécifiquement les stratégies de l'ordinateur, sans affecter les stratégies de l'utilisateur actif.",
+    "code": "gpupdate /Target:Computer /force"
+  },
+  {
+    "id": 103,
+    "title": "Mise à jour GPO avec Redémarrage",
+    "category": "GPO",
+    "description": "Force la mise à jour des GPO. Déclenche automatiquement un redémarrage ou une déconnexion si l'application d'une stratégie le requiert.",
+    "code": "gpupdate /force /boot /logoff"
+  },
+  {
+    "id": 104,
+    "title": "Rapport rapide des GPO appliquées",
+    "category": "GPO",
+    "description": "Affiche les Unités d'Organisation (OU) de l'utilisateur et de l'ordinateur, ainsi que la liste des stratégies appliquées ou refusées.",
+    "code": "gpresult /r"
+  },
+  {
+    "id": 105,
+    "title": "Rapport GPO complet au format HTML",
+    "category": "GPO",
+    "description": "Génère un rapport graphique très détaillé (HTML) de toutes les stratégies, puis l'écrase automatiquement s'il existe déjà (/f).",
+    "code": "gpresult /h C:\\temp\\rapport_gpo.html /f"
+  },
+  {
+    "id": 106,
+    "title": "Rapport GPO pour un utilisateur spécifique",
+    "category": "GPO",
+    "description": "Permet à un administrateur d'afficher les GPO appliquées à un utilisateur spécifique sans avoir besoin de se connecter sur sa session.",
+    "code": "gpresult /r /user DOMAINE\\Identifiant"
+  },
+  {
+    "id": 1,
+    "title": "Mappage de lecteur réseau persistant",
+    "category": "Réseau",
+    "description": "Connecte un lecteur Z: au partage des ressources communes, avec mémorisation au redémarrage.",
+    "code": "net use Z: \\\\SRV-FICHIERS\\Commun /persistent:yes"
+  },
+  {
+    "id": 2,
+    "title": "Réinitialisation complète du réseau (DNS/IP)",
+    "category": "Réseau",
+    "description": "Libère l'IP, renouvelle l'IP auprès du serveur DHCP, et vide le cache DNS. Idéal en cas de perte de connectivité.",
+    "code": "ipconfig /release\nipconfig /renew\nipconfig /flushdns"
+  },
+  {
+    "id": 3,
+    "title": "Récupérer le Numéro de Série (PC)",
+    "category": "Système",
+    "description": "Affiche le numéro de série physique de l'ordinateur (utile pour la garantie ou le support Dell/HP/Lenovo).",
+    "code": "wmic bios get serialnumber"
+  },
+  {
+    "id": 4,
+    "title": "Redémarrage distant forcé",
+    "category": "Admin",
+    "description": "Force le redémarrage immédiat d'un ordinateur distant (remplacer NOM_DU_PC).",
+    "code": "shutdown /r /m \\\\NOM_DU_PC /t 0 /f"
+  },
+  {
+    "id": 5,
+    "title": "Réparer Windows Update",
+    "category": "Maintenance",
+    "description": "Arrête le service de mise à jour, renomme le dossier cache (SoftwareDistribution) et relance le service.",
+    "code": "net stop wuauserv\nren C:\\Windows\\SoftwareDistribution SoftwareDistribution.old\nnet start wuauserv"
+  },
+  {
+    "id": 6,
+    "title": "Vérifier le canal sécurisé (Secure Channel)",
+    "category": "Support AD",
+    "description": "Teste la connexion sécurisée entre le poste client et le contrôleur de domaine. Utile si le PC affiche 'La relation d'approbation a échoué'.",
+    "code": "nltest /sc_query:DOMAINE.LOCAL"
+  },
+  {
+    "id": 7,
+    "title": "Trouver le Contrôleur de Domaine (DC) actif",
+    "category": "Support AD",
+    "description": "Identifie le contrôleur de domaine avec lequel le poste client communique actuellement pour l'authentification.",
+    "code": "nltest /dsgetdc:DOMAINE.LOCAL"
+  },
+  {
+    "id": 8,
+    "title": "Infos du compte utilisateur (AD)",
+    "category": "Support AD",
+    "description": "Affiche l'état du compte AD de l'utilisateur (date d'expiration du mot de passe, verrouillage, dernière connexion). Remplacez NOM_UTILISATEUR.",
+    "code": "net user NOM_UTILISATEUR /domain"
+  },
+  {
+    "id": 9,
+    "title": "Purger le cache des tickets Kerberos",
+    "category": "Support AD",
+    "description": "Supprime les tickets d'authentification en cache. Aide à forcer la prise en compte d'un nouveau groupe de sécurité sans redémarrer le PC (nécessite juste de verrouiller/déverrouiller la session).",
+    "code": "klist purge"
+  },
+  {
+    "id": 10,
+    "title": "Groupes de sécurité du jeton actif",
+    "category": "Support AD",
+    "description": "Affiche la liste exacte des groupes Active Directory réellement pris en compte sur la session actuelle de l'utilisateur.",
+    "code": "whoami /groups"
+  },
+  {
+    "id": 12,
+    "title": "Jeu de stratégie résultant (Interface)",
+    "category": "GPO",
+    "description": "Ouvre l'interface graphique du jeu de stratégie (rsop.msc) pour visualiser les GPO appliquées à l'ordinateur et à l'utilisateur.",
+    "code": "rsop.msc"
+  },
+  {
+    "id": 13,
+    "title": "Console Utilisateurs et Ordinateurs AD",
+    "category": "Support AD",
+    "description": "Ouvre directement la console de gestion d'Active Directory (dsa.msc).",
+    "code": "dsa.msc"
+  },
+  {
+    "id": 14,
+    "title": "Test Port LDAP (Active Directory)",
+    "category": "Réseau",
+    "description": "Teste la connectivité réseau et le port 389 (LDAP) vers un contrôleur de domaine (remplacez DC01).",
+    "code": "Test-NetConnection DC01 -Port 389"
+  },
+  {
+    "id": 15,
+    "title": "Test de résolution DNS (PowerShell)",
+    "category": "Réseau",
+    "description": "Teste la résolution DNS pour un nom de domaine spécifique (Alternative PowerShell à nslookup).",
+    "code": "Resolve-DnsName domaine.local"
+  }
+]
