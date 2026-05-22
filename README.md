@@ -2,6 +2,8 @@
 
 > **Le catalogue de GPO et générateur de scripts conçu pour accompagner l'apprentissage d'Active Directory.**
 
+🔗 **Lien de l'application :** [https://outil-ad.netlify.app/](https://outil-ad.netlify.app/)
+
 L'administration d'un domaine Windows Server et la sécurisation d'un parc informatique via les stratégies de groupe (GPO) sont des piliers de l'ingénierie système. **Outil-AD** a été développé pour centraliser, vulgariser et simplifier l'accès à ces configurations indispensables.
 
 ## 🎓 Intention Pédagogique & Accompagnement
