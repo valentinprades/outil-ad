@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Outil-AD - Scripts AD</title>
+
+    <!-- Favicon SVG Dynamique -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect width='24' height='24' rx='4' fill='%232563eb'/><path stroke='white' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' fill='none' transform='translate(2, 2) scale(0.8)' d='M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z'/></svg>">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = { darkMode: 'class' };
@@ -26,7 +30,7 @@
                 </div>
                 <h1 class="text-lg sm:text-xl font-bold tracking-wide">Outil-AD <span class="text-purple-400">Scripts</span></h1>
             </div>
-            
+
             <nav class="flex flex-wrap justify-center items-center gap-1 sm:gap-2 bg-slate-800 p-1 rounded-lg w-full sm:w-auto">
                 <button id="theme-toggle-script" title="Basculer le thème" class="text-gray-400 hover:text-yellow-400 focus:outline-none rounded-lg text-sm p-2 transition">
                     <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
@@ -41,13 +45,13 @@
     </header>
 
     <main class="flex-grow container mx-auto px-6 py-8 overflow-y-auto custom-scrollbar">
-        
+
         <div class="flex flex-col md:flex-row justify-between items-end mb-8 gap-4">
             <div>
                 <h2 class="text-3xl font-bold text-slate-800 dark:text-white">Générateur PowerShell AD</h2>
                 <p class="text-slate-500 dark:text-slate-400 mt-1">Créez des scripts sécurisés sur mesure en remplissant les champs.</p>
             </div>
-            
+
             <div class="flex bg-gray-200 dark:bg-slate-800 p-1 rounded-lg shrink-0">
                 <button class="px-4 py-2 text-sm font-medium rounded-md bg-white dark:bg-slate-700 text-purple-600 dark:text-purple-400 shadow-sm">Active Directory</button>
                 <button onclick="window.location.href='script-env.html'" class="px-4 py-2 text-sm font-medium rounded-md text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition">Environnement OS</button>
@@ -56,7 +60,7 @@
 
         <!-- Zone de travail principale divisée en 2 colonnes (Formulaire / Script généré) -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 pb-10 items-start">
-            
+
             <!-- Le Formulaire -->
             <div class="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-slate-700 flex flex-col">
                 <div class="flex justify-between items-center mb-6">
@@ -69,7 +73,7 @@
                         <svg id="iconAdvanced" class="w-4 h-4 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </button>
                 </div>
-                
+
                 <form id="formNewUser" class="space-y-4">
                     <!-- Actions souhaitées -->
                     <div class="bg-purple-50 dark:bg-slate-900/50 p-4 rounded-lg border border-purple-100 dark:border-slate-700 mb-6">
@@ -117,7 +121,7 @@
                             <input type="text" id="f_nom" oninput="generateScript()" class="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg bg-gray-50 dark:bg-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Dupont">
                         </div>
                     </div>
-                    
+
                     <div class="grid grid-cols-2 gap-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Identifiant (Logon) *</label>
@@ -133,7 +137,7 @@
                             </ul>
                         </div>
                     </div>
-                    
+
                     <div class="grid grid-cols-1 gap-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Arborescence de l'UO cible (Tapez '/' pour ajouter un niveau) *</label>
@@ -170,7 +174,7 @@
                     </div>
                 </form>
             </div>
-            
+
             <!-- Le Rendu du script -->
             <div class="bg-slate-900 rounded-xl shadow-lg border border-slate-700 flex flex-col h-full min-h-[400px]">
                 <div class="bg-slate-800 px-4 py-3 rounded-t-xl border-b border-slate-700 flex justify-between items-center">
@@ -197,7 +201,7 @@
         </div>
 
         <footer class="mt-4 border-t border-gray-200 dark:border-slate-800 pt-6 pb-2 text-center text-sm text-slate-500 dark:text-slate-400">
-            <p>Créé par <strong>Valentin Prades</strong> - Version 0.1. Distribué sous <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer" class="text-purple-500 hover:text-purple-600 dark:text-purple-400 dark:hover:text-purple-300 hover:underline transition">licence Creative Commons BY-NC-SA 4.0</a>.</p>
+            <p>Créé par <strong>Valentin Prades</strong> - Version 0.2. Distribué sous <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer" class="text-purple-500 hover:text-purple-600 dark:text-purple-400 dark:hover:text-purple-300 hover:underline transition">licence Creative Commons BY-NC-SA 4.0</a>.</p>
         </footer>
     </main>
 
@@ -228,14 +232,14 @@
         });
 
         // --- GESTION DU FORMULAIRE ET GÉNÉRATION PS1 ---
-        
+
         // Au chargement, on récupère le domaine mémorisé
         document.addEventListener('DOMContentLoaded', () => {
             const savedDomain = localStorage.getItem('ad-domain');
             if (savedDomain) {
                 document.getElementById('f_domain').value = savedDomain;
             }
-            
+
             const ouInput = document.getElementById('f_ou_input');
             if (ouInput) {
                 ouInput.addEventListener('keydown', function(e) {
@@ -255,7 +259,7 @@
                     }
                     document.getElementById('ou-error').classList.add('hidden');
                 });
-                
+
                 updateOuPreview();
             }
         });
@@ -268,7 +272,7 @@
         function toggleAdvancedMode() {
             const section = document.getElementById('sectionAdvanced');
             const icon = document.getElementById('iconAdvanced');
-            
+
             if (section.classList.contains('hidden')) {
                 section.classList.remove('hidden');
                 icon.classList.add('rotate-180');
@@ -294,9 +298,9 @@
         function checkPassword() {
             const pwd = document.getElementById('f_pwd').value;
             const sam = document.getElementById('f_sam').value.trim().toLowerCase();
-            
+
             let isValid = true;
-            
+
             const lenValid = pwd.length >= 12;
             updateCritUI('crit-len', lenValid);
             if (!lenValid) isValid = false;
@@ -334,13 +338,13 @@
         function addOuTag(val) {
             const cleanVal = val.trim();
             if (!cleanVal) return;
-            
+
             // Blindage anti-caractères spéciaux LDAP
             if (/[,=\+<>#;\\"]/.test(cleanVal)) {
                 document.getElementById('ou-error').classList.remove('hidden');
                 return;
             }
-            
+
             ouTags.push(cleanVal);
             document.getElementById('f_ou_input').value = '';
             renderOuTags();
@@ -366,7 +370,7 @@
                     </button>
                 `;
                 container.appendChild(tagEl);
-                
+
                 const slash = document.createElement('span');
                 slash.className = "text-gray-400 dark:text-gray-500 font-bold mx-0.5 select-none";
                 slash.innerText = "/";
@@ -379,18 +383,18 @@
             const preview = document.getElementById('ou-preview');
             const domainEl = document.getElementById('f_domain');
             if (!domainEl) return "";
-            
+
             const domain = domainEl.value.trim();
             let dcParts = "";
             if (domain) {
                 dcParts = domain.split('.').map(part => `DC=${part}`).join(',');
             }
-            
+
             if (ouTags.length === 0) {
                 preview.innerText = dcParts ? `Synthèse LDAP : ${dcParts}` : "";
                 return "";
             }
-            
+
             // AD lit de l'enfant vers le parent, donc on inverse l'ordre tapé (reverse)
             const ouPath = [...ouTags].reverse().map(t => `OU=${t}`).join(',');
             const fullPath = dcParts ? `${ouPath},${dcParts}` : ouPath;
@@ -404,7 +408,7 @@
             const sam = document.getElementById('f_sam').value.trim();
             const pwd = document.getElementById('f_pwd').value.trim();
             const domain = document.getElementById('f_domain').value.trim();
-            
+
             const isPwdValid = checkPassword();
             const fullOuPath = updateOuPreview();
 
@@ -444,10 +448,10 @@
             // Construction du script
             let script = `# Script généré par SysAdmin Scripts\n`;
             script += `# Date: ${new Date().toLocaleDateString('fr-FR')}\n\n`;
-            
+
             script += `# --- 1. CRÉATION DE L'UTILISATEUR ---\n`;
             script += `$Password = ConvertTo-SecureString "${pwd}" -AsPlainText -Force\n`;
-            
+
             script += `New-ADUser -Name "${prenom} ${nom}" \`\n`;
             script += `    -GivenName "${prenom}" \`\n`;
             script += `    -Surname "${nom}" \`\n`;
@@ -509,7 +513,7 @@
         function downloadScript() {
             const text = document.getElementById('codeOutput').innerText;
             const sam = document.getElementById('f_sam').value.trim() || "new_user";
-            
+
             if (text.includes("Avertissement") || text.includes("En attente")) {
                 alert("Générez d'abord un script valide avant de télécharger.");
                 return;
@@ -518,14 +522,14 @@
             // Création du fichier Blob
             const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
             const url = window.URL.createObjectURL(blob);
-            
+
             // Création d'un lien invisible pour déclencher le téléchargement
             const a = document.createElement('a');
             a.href = url;
             a.download = `CreateADUser_${sam}.ps1`; // Nom de fichier dynamique
             document.body.appendChild(a);
             a.click();
-            
+
             // Nettoyage
             window.URL.revokeObjectURL(url);
             document.body.removeChild(a);
